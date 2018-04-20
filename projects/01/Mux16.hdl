@@ -1,0 +1,98 @@
+// This file is part of www.nand2tetris.org
+// and the book "The Elements of Computing Systems"
+// by Nisan and Schocken, MIT Press.
+// File name: projects/01/Mux16.hdl
+
+/**
+ * 16-bit multiplexor: 
+ * for i = 0..15 out[i] = a[i] if sel == 0 
+ *                        b[i] if sel == 1
+ */
+
+CHIP Mux16 {
+    IN a[16], b[16], sel;
+    OUT out[16];
+
+    PARTS:
+    Xor(a=a[0], b=sel, out=aOrSel);
+  	And(a=a[0], b=aOrSel, out=temp0);
+  	And(a=sel, b=b[0], out=bAndSel);
+  	Or(a=temp0, b=bAndSel, out=out[0]);
+
+  	Xor(a=a[1], b=sel, out=aOrSel1);
+  	And(a=a[1], b=aOrSel1, out=temp1);
+  	And(a=sel, b=b[1], out=bAndSel1);
+  	Or(a=temp1, b=bAndSel1, out=out[1]);
+
+  	Xor(a=a[2], b=sel, out=aOrSel2);
+  	And(a=a[2], b=aOrSel2, out=temp2);
+  	And(a=sel, b=b[2], out=bAndSel2);
+  	Or(a=temp2, b=bAndSel2, out=out[2]);
+
+  	Xor(a=a[3], b=sel, out=aOrSel3);
+  	And(a=a[3], b=aOrSel3, out=temp3);
+  	And(a=sel, b=b[3], out=bAndSel3);
+  	Or(a=temp3, b=bAndSel3, out=out[3]);
+
+  	Xor(a=a[4], b=sel, out=aOrSel4);
+  	And(a=a[4], b=aOrSel4, out=temp4);
+  	And(a=sel, b=b[4], out=bAndSel4);
+  	Or(a=temp4, b=bAndSel4, out=out[4]);
+
+  	Xor(a=a[5], b=sel, out=aOrSel5);
+  	And(a=a[5], b=aOrSel5, out=temp5);
+  	And(a=sel, b=b[5], out=bAndSel5);
+  	Or(a=temp5, b=bAndSel5, out=out[5]);
+
+  	Xor(a=a[6], b=sel, out=aOrSel6);
+  	And(a=a[6], b=aOrSel6, out=temp6);
+  	And(a=sel, b=b[6], out=bAndSel6);
+  	Or(a=temp6, b=bAndSel6, out=out[6]);
+
+  	Xor(a=a[7], b=sel, out=aOrSel7);
+  	And(a=a[7], b=aOrSel7, out=temp7);
+  	And(a=sel, b=b[7], out=bAndSel7);
+  	Or(a=temp7, b=bAndSel7, out=out[7]);
+
+  	Xor(a=a[8], b=sel, out=aOrSel8);
+  	And(a=a[8], b=aOrSel8, out=temp8);
+  	And(a=sel, b=b[8], out=bAndSel8);
+  	Or(a=temp8, b=bAndSel8, out=out[8]);
+
+  	Xor(a=a[9], b=sel, out=aOrSel9);
+  	And(a=a[9], b=aOrSel9, out=temp9);
+  	And(a=sel, b=b[9], out=bAndSel9);
+  	Or(a=temp9, b=bAndSel9, out=out[9]);
+
+  	Xor(a=a[10], b=sel, out=aOrSel10);
+  	And(a=a[10], b=aOrSel10, out=temp10);
+  	And(a=sel, b=b[10], out=bAndSel10);
+  	Or(a=temp10, b=bAndSel10, out=out[10]);
+
+  	Xor(a=a[11], b=sel, out=aOrSel11);
+  	And(a=a[11], b=aOrSel11, out=temp11);
+  	And(a=sel, b=b[11], out=bAndSel11);
+  	Or(a=temp11, b=bAndSel11, out=out[11]);
+
+  	Xor(a=a[12], b=sel, out=aOrSel12);
+  	And(a=a[12], b=aOrSel12, out=temp12);
+  	And(a=sel, b=b[12], out=bAndSel12);
+  	Or(a=temp12, b=bAndSel12, out=out[12]);
+
+  	Xor(a=a[13], b=sel, out=aOrSel13);
+  	And(a=a[13], b=aOrSel13, out=temp13);
+  	And(a=sel, b=b[13], out=bAndSel13);
+  	Or(a=temp13, b=bAndSel13, out=out[13]);
+
+  	Xor(a=a[14], b=sel, out=aOrSel14);
+  	And(a=a[14], b=aOrSel14, out=temp14);
+  	And(a=sel, b=b[14], out=bAndSel14);
+  	Or(a=temp14, b=bAndSel14, out=out[14]);
+
+  	Xor(a=a[15], b=sel, out=aOrSel15);
+  	And(a=a[15], b=aOrSel15, out=temp15);
+  	And(a=sel, b=b[15], out=bAndSel15);
+  	Or(a=temp15, b=bAndSel15, out=out[15]);
+
+
+}
