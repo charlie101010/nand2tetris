@@ -1,5 +1,5 @@
 import sys
-
+import code
 
 class Parser(object):
 
@@ -38,16 +38,21 @@ class Parser(object):
 		elif "pop" in text:
 			return "C_POP"
 		elif self.arithmetic_check(text):
-			return "C_ARITHMETIC", word
+			return "C_ARITHMETIC"
 		else:
 			print "Invalid Command"
 
 
 	def parse(self):
 		trimmed = self.read_in()
+		c = code.Code()
 		for line in trimmed:
 			command = self.command_type(line)
-			if command == "C_PUSH" or command == "C_POP":
+			if command == "C_PUSH":
+				arg1 = self.memory_segment(line)
+				arg2 = line.split(arg1,1)[1]
+				c.push(arg1, arg2)
+			elif command == "C_POP":
 				arg1 = self.memory_segment(line)
 				arg2 = line.split(arg1,1)[1]
 			elif command == "C_ARITHMETIC":
