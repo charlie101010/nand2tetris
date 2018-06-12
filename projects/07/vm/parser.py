@@ -3,8 +3,8 @@ import code
 
 class Parser(object):
 
-	def __init__(self):
-		self.name = "parser"
+	def __init__(self, name):
+		self.name = name
 
 	def read_in(self):
 		f = open(sys.argv[1],"r")
@@ -17,6 +17,7 @@ class Parser(object):
 	        	line = line.replace(" ", "")
 	        	if len(line) != 0:
 	        		contents_trimmed.append(line)
+	        print contents_trimmed
 	    	return contents_trimmed
 
 	def arithmetic_check(self, text):
@@ -51,13 +52,14 @@ class Parser(object):
 			if command == "C_PUSH":
 				arg1 = self.memory_segment(line)
 				arg2 = line.split(arg1,1)[1]
-				c.push(arg1, arg2)
+				contents = c.push(arg1, arg2)
 			elif command == "C_POP":
 				arg1 = self.memory_segment(line)
 				arg2 = line.split(arg1,1)[1]
 				c.pop(arg1, arg2)
 			elif command == "C_ARITHMETIC":
 				specific = line
+				c.arithmetic(line)
 
 
 
