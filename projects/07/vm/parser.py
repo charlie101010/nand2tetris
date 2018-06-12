@@ -55,6 +55,7 @@ class Parser(object):
 			elif command == "C_POP":
 				arg1 = self.memory_segment(line)
 				arg2 = line.split(arg1,1)[1]
+				c.pop(arg1, arg2)
 			elif command == "C_ARITHMETIC":
 				specific = line
 
