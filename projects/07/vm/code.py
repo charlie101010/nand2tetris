@@ -5,6 +5,7 @@ class Code(object):
 
 	def __init__(self):
 		self.name = "code"
+		self.count = 0
 
 	def push(self, arg1, arg2):
 		if arg1 == "local":
@@ -100,6 +101,7 @@ class Code(object):
 
 
 	def arithmetic(self, command):
+		
 		if command == "add":
 			print "//add"+'\n'\
 			"@SP" + '\n'\
@@ -139,6 +141,151 @@ class Code(object):
 			'M=D' + '\n'\
 			'@SP' + '\n'\
 			'M=M+1'
+
+		elif command == "neg":
+			print "//neg"+'\n'\
+			"@SP" + '\n'\
+			'D=M-1' + '\n'\
+			'A=D'+ '\n'\
+			'M=-M'
+			
+		elif command == "not":
+			print "//not"+'\n'\
+			"@SP" + '\n'\
+			'D=M-1' + '\n'\
+			'A=D'+ '\n'\
+			'M=!M' 
+
+		elif command == "or":
+			print "//or"+'\n'\
+			"@SP" + '\n'\
+			'M=M-1' + '\n'\
+			'A=M'+ '\n'\
+			'D=M' + '\n'\
+			'@addr' + '\n'\
+			'M=D' + '\n'\
+			'@SP' + '\n'\
+			'M=M-1' + '\n'\
+			'A=M' + '\n'\
+			'D=M' + '\n'\
+			'@addr' + '\n'\
+			'D=D|M' + '\n'\
+			'@SP' + '\n'\
+			'A=M' + '\n'\
+			'M=D' + '\n'\
+			'@SP' + '\n'\
+			'M=M+1'
+
+		elif command == "and":
+			print "//and"+'\n'\
+			"@SP" + '\n'\
+			'M=M-1' + '\n'\
+			'A=M'+ '\n'\
+			'D=M' + '\n'\
+			'@addr' + '\n'\
+			'M=D' + '\n'\
+			'@SP' + '\n'\
+			'M=M-1' + '\n'\
+			'A=M' + '\n'\
+			'D=M' + '\n'\
+			'@addr' + '\n'\
+			'D=D&M' + '\n'\
+			'@SP' + '\n'\
+			'A=M' + '\n'\
+			'M=D' + '\n'\
+			'@SP' + '\n'\
+			'M=M+1'
+
+		elif command == "gt":
+			self.count = self.count + 1
+			print "//gt"+'\n'\
+			"@SP" + '\n'\
+			'M=M-1' + '\n'\
+			'A=M'+ '\n'\
+			'D=M' + '\n'\
+			'@addr' + '\n'\
+			'M=D' + '\n'\
+			'@SP' + '\n'\
+			'M=M-1' + '\n'\
+			'A=M' + '\n'\
+			'D=M' + '\n'\
+			'@addr' + '\n'\
+			'D=D-M' + '\n'\
+			'@TRUE'+str(self.count) + '\n'\
+			'D;JGT' + '\n'\
+			'D=0' + '\n'\
+			'@FALSE'+str(self.count) + '\n'\
+			'0;JMP' + '\n'\
+			'(TRUE'+str(self.count)+')' + '\n'\
+			'D=-1' + '\n'\
+			'(FALSE'+str(self.count)+')' + '\n'\
+			'@SP' + '\n'\
+			'A=M' + '\n'\
+			'M=D' + '\n'\
+			'@SP' + '\n'\
+			'M=M+1'
+			
+
+		elif command == "lt":
+			self.count = self.count+1
+			print "//lt"+'\n'\
+			"@SP" + '\n'\
+			'M=M-1' + '\n'\
+			'A=M'+ '\n'\
+			'D=M' + '\n'\
+			'@addr' + '\n'\
+			'M=D' + '\n'\
+			'@SP' + '\n'\
+			'M=M-1' + '\n'\
+			'A=M' + '\n'\
+			'D=M' + '\n'\
+			'@addr' + '\n'\
+			'D=D-M' + '\n'\
+			'@TRUE'+str(self.count) + '\n'\
+			'D;JLT' + '\n'\
+			'D=0' + '\n'\
+			'@FALSE'+ str(self.count)+ '\n'\
+			'0;JMP' + '\n'\
+			'(TRUE' +str(self.count)+')' + '\n'\
+			'D=-1' + '\n'\
+			'(FALSE' +str(self.count)+')' + '\n'\
+			'@SP' + '\n'\
+			'A=M' + '\n'\
+			'M=D' + '\n'\
+			'@SP' + '\n'\
+			'M=M+1'
+			
+
+		elif command == "eq":
+			self.count = self.count + 1
+			print "//eq"+'\n'\
+			"@SP" + '\n'\
+			'M=M-1' + '\n'\
+			'A=M'+ '\n'\
+			'D=M' + '\n'\
+			'@addr' + '\n'\
+			'M=D' + '\n'\
+			'@SP' + '\n'\
+			'M=M-1' + '\n'\
+			'A=M' + '\n'\
+			'D=M' + '\n'\
+			'@addr' + '\n'\
+			'D=D-M' + '\n'\
+			'@TRUE'+str(self.count) + '\n'\
+			'D;JEQ' + '\n'\
+			'D=0' + '\n'\
+			'@FALSE' +str(self.count) + '\n'\
+			'0;JMP' + '\n'\
+			'(TRUE' +str(self.count)+')' + '\n'\
+			'D=-1' + '\n'\
+			'(FALSE' +str(self.count)+')' + '\n'\
+			'@SP' + '\n'\
+			'A=M' + '\n'\
+			'M=D' + '\n'\
+			'@SP' + '\n'\
+			'M=M+1'
+
+
 
 
 
