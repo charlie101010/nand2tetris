@@ -7,7 +7,7 @@ class Code(object):
 		self.name = "code"
 		self.count = 0
 
-	def push(self, arg1, arg2):
+	def push(self, arg1, arg2, name):
 		if arg1 == "local":
 			 self.four_segments_push("LCL", arg1, arg2)
 		elif arg1 == "this":
@@ -20,8 +20,11 @@ class Code(object):
 			 self.four_segments_push("TEMP", arg1, arg2)
 		elif arg1 == "constant":
 			 self.four_segments_push("CONST", arg1, arg2)
+		elif arg1 == "static":
+			 self.four_segments_push("STAT", arg1, arg2, name)
+
 			
-	def pop(self, arg1, arg2):
+	def pop(self, arg1, arg2, name):
 		if arg1 == "local":
 			 self.four_segments_pop("LCL", arg1, arg2)
 		elif arg1 == "this":
@@ -32,9 +35,12 @@ class Code(object):
 			 self.four_segments_pop("ARG", arg1, arg2)
 		elif arg1 == "temp":
 			 self.four_segments_pop("TEMP", arg1, arg2)
+		elif arg1 == "static":
+			 self.four_segments_pop("STAT", arg1, arg2, name)
+	
 			
 
-	def four_segments_push(self, segment, arg1, arg2):
+	def four_segments_push(self, segment, arg1, arg2, name=None):
 		if segment == "ARG" or segment == "LCL" or segment == "THIS" or segment == "THAT":
 			print "//push " + arg1 + " "+arg2 +'\n'\
 			"@"+ arg2 + '\n'\
@@ -72,7 +78,19 @@ class Code(object):
 			'M=M+1'
 
 
-	def four_segments_pop(self, segment, arg1, arg2):
+		elif segment == "STAT":
+			name = name.split('/')[-1]
+			print "//push " + arg1 + " "+arg2 +'\n'\
+			'@'+ name +'.' + arg2 + '\n'\
+			'D=M' + '\n'\
+			'@SP' + '\n'\
+			'A=M' + '\n'\
+			'M=D' + '\n'\
+			'@SP' + '\n'\
+			'M=M+1'
+
+
+	def four_segments_pop(self, segment, arg1, arg2, name=None):
 		if segment == "ARG" or segment == "LCL" or segment == "THIS" or segment == "THAT":
 			print "//pop " + arg1 + " "+arg2 +'\n'\
 			"@"+arg2 + '\n'\
@@ -98,6 +116,16 @@ class Code(object):
 			'D=M' + '\n'\
 			"@"+ str(location)+ '\n'\
 			'M=D'
+
+		elif segment == "STAT":
+			name = name.split('/')[-1]
+			print "//pop " + arg1 + " "+arg2 +'\n'\
+			'@SP' +'\n'\
+			'M=M-1' +'\n'\
+			'A=M' +'\n'\
+			'D=M' +'\n'\
+			'@'+ name +'.' + arg2 + '\n'\
+			'M=D' 
 
 
 	def arithmetic(self, command):

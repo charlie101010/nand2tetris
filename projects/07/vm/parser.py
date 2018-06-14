@@ -52,11 +52,11 @@ class Parser(object):
 			if command == "C_PUSH":
 				arg1 = self.memory_segment(line)
 				arg2 = line.split(arg1,1)[1]
-				contents = c.push(arg1, arg2)
+				contents = c.push(arg1, arg2, self.name)
 			elif command == "C_POP":
 				arg1 = self.memory_segment(line)
 				arg2 = line.split(arg1,1)[1]
-				c.pop(arg1, arg2)
+				c.pop(arg1, arg2, self.name)
 			elif command == "C_ARITHMETIC":
 				specific = line
 				c.arithmetic(line)
