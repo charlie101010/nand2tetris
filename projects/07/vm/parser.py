@@ -6,6 +6,7 @@ class Parser(object):
 	def __init__(self, name):
 		self.name = name
 
+#read in the vm code from file
 	def read_in(self):
 		f = open(sys.argv[1],"r")
 		contents = f.readlines()
@@ -20,19 +21,21 @@ class Parser(object):
 	        print contents_trimmed
 	    	return contents_trimmed
 
+#check to see if the current vm command is an arithmetic one
 	def arithmetic_check(self, text):
 		arithmetic_words = ["add", "sub", "neg", "eq", "gt", "lt", "and", "or", "not"]
 		for word in arithmetic_words:
 			if word in text:
 				return True
 
+#if the vm command is push or pop, determine which memory segment should be accessed
 	def memory_segment(self, text):
 		segment = ["local", "this", "that", "argument", "temp", "static",  "pointer", "constant"]
 		for word in segment:
 			if word in text:
 				return word
 
-
+#determine the command type of the current vm line
 	def command_type(self, text):
 		if "push" in text:
 			return "C_PUSH"
@@ -44,7 +47,7 @@ class Parser(object):
 			print "Invalid Command"
 
 
-
+#iterate through each vm command and pass it to the methods from the codewriter class to translate and write to file
 	def parse(self):
 		trimmed = self.read_in()
 		c = code.Code()

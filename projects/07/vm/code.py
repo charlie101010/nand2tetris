@@ -7,6 +7,7 @@ class Code(object):
 		self.name = "code"
 		self.count = 0
 
+#initiate the process of translation for a given push command type and pass the assembly abbreviation for LCL, THIS, THAT, ARG...this can definitely be more efficient
 	def push(self, arg1, arg2, name):
 		if arg1 == "local":
 			self.four_segments_push("LCL", arg1, arg2, name)
@@ -24,9 +25,9 @@ class Code(object):
 			self.four_segments_push("POI", arg1, arg2, name)
 		elif arg1 == "static":
 			 self.four_segments_push("STAT", arg1, arg2, name)
-		
 
-			
+		
+#initiate the process of translation for a given pop command type and pass the assembly abbreviation for LCL, THIS, THAT, ARG...this can definitely be more efficient			
 	def pop(self, arg1, arg2, name):
 		if arg1 == "local":
 			self.four_segments_pop("LCL", arg1, arg2, name)
@@ -44,7 +45,7 @@ class Code(object):
 			self.four_segments_pop("POI", arg1, arg2, name)
 	
 			
-
+#execute the translation from vm to assembly code and write to file
 	def four_segments_push(self, segment, arg1, arg2, name=None):
 		if segment == "ARG" or segment == "LCL" or segment == "THIS" or segment == "THAT":
 			list = [ "//push " + arg1 + " "+arg2, 
@@ -377,7 +378,7 @@ class Code(object):
 			'M=M+1']
 			self.write_to_file(name, list)
 
-
+#method used to actually write to file
 	def write_to_file(self, listname, list):
 				with open(listname+ '.asm', 'a') as the_file:
 					for item in list:
