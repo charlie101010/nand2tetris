@@ -48,7 +48,7 @@ class Code(object):
 	def four_segments_push(self, segment, arg1, arg2, name=None):
 		if segment == "ARG" or segment == "LCL" or segment == "THIS" or segment == "THAT":
 			list = [ "//push " + arg1 + " "+arg2, 
-			"@"+ arg2 ,
+			"@"+ arg2,
 			'D=A',
 			'@'+ segment,
 			'D=M+D',
@@ -87,9 +87,9 @@ class Code(object):
 
 
 		elif segment == "STAT":
-			name = name.split('/')[-1]
+			same = name.split('/')[-1]
 			list = ["//push " + arg1 + " "+arg2, 
-			'@'+ name +'.' + arg2,
+			'@'+ same +'.' + arg2,
 			'D=M',
 			'@SP',
 			'A=M',
@@ -145,20 +145,20 @@ class Code(object):
 			list = ["//pop " + arg1 + " "+arg2,
 			'@SP',
 			'M=M-1',
-			'A=M'
+			'A=M',
 			'D=M',
 			"@"+ str(location),
 			'M=D']
 			self.write_to_file(name, list)
 
 		elif segment == "STAT":
-			name = name.split('/')[-1]
+			same = name.split('/')[-1]
 			list = ["//pop " + arg1 + " "+arg2,
 			'@SP',
 			'M=M-1',
 			'A=M',
 			'D=M',
-			'@'+ name +'.' + arg2,
+			'@'+ same +'.' + arg2,
 			'M=D']
 			self.write_to_file(name, list)
 
