@@ -20,8 +20,11 @@ class Code(object):
 			 self.four_segments_push("TEMP", arg1, arg2)
 		elif arg1 == "constant":
 			 self.four_segments_push("CONST", arg1, arg2)
+		elif arg1 == "pointer":
+			 self.four_segments_push("POI", arg1, arg2)
 		elif arg1 == "static":
 			 self.four_segments_push("STAT", arg1, arg2, name)
+		
 
 			
 	def pop(self, arg1, arg2, name):
@@ -37,6 +40,8 @@ class Code(object):
 			 self.four_segments_pop("TEMP", arg1, arg2)
 		elif arg1 == "static":
 			 self.four_segments_pop("STAT", arg1, arg2, name)
+		elif arg1 == "pointer":
+			 self.four_segments_pop("POI", arg1, arg2)
 	
 			
 
@@ -89,6 +94,27 @@ class Code(object):
 			'@SP' + '\n'\
 			'M=M+1'
 
+		elif segment == "POI":
+			if arg2 == "0":
+				print "//push " + arg1 + " "+arg2 +'\n'\
+				'@THIS'+ '\n'\
+				'D=M' + '\n'\
+				'@SP' + '\n'\
+				'A=M' + '\n'\
+				'M=D' + '\n'\
+				'@SP' + '\n'\
+				'M=M+1'
+
+			elif arg2 =="1":
+				print "//push " + arg1 + " "+arg2 +'\n'\
+				'@THAT'+ '\n'\
+				'D=M' + '\n'\
+				'@SP' + '\n'\
+				'A=M' + '\n'\
+				'M=D' + '\n'\
+				'@SP' + '\n'\
+				'M=M+1'
+
 
 	def four_segments_pop(self, segment, arg1, arg2, name=None):
 		if segment == "ARG" or segment == "LCL" or segment == "THIS" or segment == "THAT":
@@ -125,8 +151,26 @@ class Code(object):
 			'A=M' +'\n'\
 			'D=M' +'\n'\
 			'@'+ name +'.' + arg2 + '\n'\
-			'M=D' 
+			'M=D'
 
+		elif segment == "POI":
+			if arg2 == "0":
+				print "//pop " + arg1 + " "+arg2 +'\n'\
+				'@SP' + '\n'\
+				'M=M-1' + '\n'\
+				'A=M' +'\n'\
+				'D=M' + '\n'\
+				'@THIS'+ '\n'\
+				'M=D' + '\n'\
+				
+			elif arg2 =="1":
+				print "//pop " + arg1 + " "+arg2 +'\n'\
+				'@SP' + '\n'\
+				'M=M-1' + '\n'\
+				'A=M' +'\n'\
+				'D=M' + '\n'\
+				'@THAT'+ '\n'\
+				'M=D' + '\n'\
 
 	def arithmetic(self, command):
 		

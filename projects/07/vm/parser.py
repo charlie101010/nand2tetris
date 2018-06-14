@@ -27,7 +27,7 @@ class Parser(object):
 				return True
 
 	def memory_segment(self, text):
-		segment = ["local", "this", "that", "argument", "temp", "static", "constant", "pointer"]
+		segment = ["local", "this", "that", "argument", "temp", "static",  "pointer", "constant"]
 		for word in segment:
 			if word in text:
 				return word
@@ -49,7 +49,7 @@ class Parser(object):
 		c = code.Code()
 		for line in trimmed:
 			command = self.command_type(line)
-			if command == "C_PUSH":
+			if command == "C_PUSH":	
 				arg1 = self.memory_segment(line)
 				arg2 = line.split(arg1,1)[1]
 				contents = c.push(arg1, arg2, self.name)
