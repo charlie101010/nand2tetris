@@ -44,6 +44,7 @@ class Parser(object):
 			print "Invalid Command"
 
 
+
 	def parse(self):
 		trimmed = self.read_in()
 		c = code.Code()
@@ -52,7 +53,7 @@ class Parser(object):
 			if command == "C_PUSH":	
 				arg1 = self.memory_segment(line)
 				arg2 = line.split(arg1,1)[1]
-				contents = c.push(arg1, arg2, self.name)
+				c.push(arg1, arg2, self.name)	
 			elif command == "C_POP":
 				arg1 = self.memory_segment(line)
 				arg2 = line.split(arg1,1)[1]
@@ -60,6 +61,7 @@ class Parser(object):
 			elif command == "C_ARITHMETIC":
 				specific = line
 				c.arithmetic(line)
+				c.pop(arg1, arg2, self.name)
 
 
 

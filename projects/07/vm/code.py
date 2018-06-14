@@ -9,19 +9,19 @@ class Code(object):
 
 	def push(self, arg1, arg2, name):
 		if arg1 == "local":
-			 self.four_segments_push("LCL", arg1, arg2)
+			self.four_segments_push("LCL", arg1, arg2, name)
 		elif arg1 == "this":
-			 self.four_segments_push("THIS", arg1, arg2)
+			self.four_segments_push("THIS", arg1, arg2, name)
 		elif arg1 == "that":
-			 self.four_segments_push("THAT", arg1, arg2)
+			self.four_segments_push("THAT", arg1, arg2, name)
 		elif arg1 == "argument":
-			 self.four_segments_push("ARG", arg1, arg2)
+			self.four_segments_push("ARG", arg1, arg2, name)
 		elif arg1 == "temp":
-			 self.four_segments_push("TEMP", arg1, arg2)
+			self.four_segments_push("TEMP", arg1, arg2, name)
 		elif arg1 == "constant":
-			 self.four_segments_push("CONST", arg1, arg2)
+			self.four_segments_push("CONST", arg1, arg2, name)
 		elif arg1 == "pointer":
-			 self.four_segments_push("POI", arg1, arg2)
+			self.four_segments_push("POI", arg1, arg2, name)
 		elif arg1 == "static":
 			 self.four_segments_push("STAT", arg1, arg2, name)
 		
@@ -29,244 +29,261 @@ class Code(object):
 			
 	def pop(self, arg1, arg2, name):
 		if arg1 == "local":
-			 self.four_segments_pop("LCL", arg1, arg2)
+			self.four_segments_pop("LCL", arg1, arg2, name)
 		elif arg1 == "this":
-			 self.four_segments_pop("THIS", arg1, arg2)
+			self.four_segments_pop("THIS", arg1, arg2, name)
 		elif arg1 == "that":
-			 self.four_segments_pop("THAT", arg1, arg2)
+			self.four_segments_pop("THAT", arg1, arg2, name)
 		elif arg1 == "argument":
-			 self.four_segments_pop("ARG", arg1, arg2)
+			self.four_segments_pop("ARG", arg1, arg2, name)
 		elif arg1 == "temp":
-			 self.four_segments_pop("TEMP", arg1, arg2)
+			self.four_segments_pop("TEMP", arg1, arg2, name)
 		elif arg1 == "static":
-			 self.four_segments_pop("STAT", arg1, arg2, name)
+			self.four_segments_pop("STAT", arg1, arg2, name)
 		elif arg1 == "pointer":
-			 self.four_segments_pop("POI", arg1, arg2)
+			self.four_segments_pop("POI", arg1, arg2, name)
 	
 			
 
 	def four_segments_push(self, segment, arg1, arg2, name=None):
 		if segment == "ARG" or segment == "LCL" or segment == "THIS" or segment == "THAT":
-			print "//push " + arg1 + " "+arg2 +'\n'\
-			"@"+ arg2 + '\n'\
-			'D=A' + '\n'\
-			'@'+ segment + '\n'\
-			'D=M+D' + '\n'\
-			'A=D' + '\n'\
-			'D=M' + '\n'\
-			'@SP' + '\n'\
-			'A=M' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M+1'
+			list = [ "//push " + arg1 + " "+arg2, 
+			"@"+ arg2 ,
+			'D=A',
+			'@'+ segment,
+			'D=M+D',
+			'A=D',
+			'D=M',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1']
+			self.write_to_file(name, list)
 
 		elif segment == "TEMP":
 			location = int(arg2) + 5
-			print "//push " + arg1 + " "+arg2 +'\n'\
-			"@"+ str(location)+ '\n'\
-			'D=M' + '\n'\
-			'@SP'  '\n'\
-			'A=M' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M+1'
+			list = ["//push " + arg1 + " "+arg2,
+			"@"+ str(location),
+			'D=M',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1']
+			self.write_to_file(name, list)
 
 		elif segment == "CONST":
 			location = int(arg2)
-			print "//push " + arg1 + " "+arg2 +'\n'\
-			"@"+ str(location)+ '\n'\
-			'D=A' + '\n'\
-			'@SP'  '\n'\
-			'A=M' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M+1'
+			list =["//push " + arg1 + " "+arg2,
+			"@"+ str(location),
+			'D=A',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1']
+			self.write_to_file(name, list)
 
 
 		elif segment == "STAT":
 			name = name.split('/')[-1]
-			print "//push " + arg1 + " "+arg2 +'\n'\
-			'@'+ name +'.' + arg2 + '\n'\
-			'D=M' + '\n'\
-			'@SP' + '\n'\
-			'A=M' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M+1'
+			list = ["//push " + arg1 + " "+arg2, 
+			'@'+ name +'.' + arg2,
+			'D=M',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1']
+			self.write_to_file(name, list)
 
 		elif segment == "POI":
 			if arg2 == "0":
-				print "//push " + arg1 + " "+arg2 +'\n'\
-				'@THIS'+ '\n'\
-				'D=M' + '\n'\
-				'@SP' + '\n'\
-				'A=M' + '\n'\
-				'M=D' + '\n'\
-				'@SP' + '\n'\
-				'M=M+1'
+				list = ["//push " + arg1 + " "+arg2,
+				'@THIS',
+				'D=M',
+				'@SP',
+				'A=M',
+				'M=D',
+				'@SP',
+				'M=M+1']
+				self.write_to_file(name, list)
 
 			elif arg2 =="1":
-				print "//push " + arg1 + " "+arg2 +'\n'\
-				'@THAT'+ '\n'\
-				'D=M' + '\n'\
-				'@SP' + '\n'\
-				'A=M' + '\n'\
-				'M=D' + '\n'\
-				'@SP' + '\n'\
-				'M=M+1'
+				list = ["//push " + arg1 + " "+arg2,
+				'@THAT',
+				'D=M',
+				'@SP',
+				'A=M',
+				'M=D',
+				'@SP',
+				'M=M+1']
+				self.write_to_file(name, list)
 
 
 	def four_segments_pop(self, segment, arg1, arg2, name=None):
 		if segment == "ARG" or segment == "LCL" or segment == "THIS" or segment == "THAT":
-			print "//pop " + arg1 + " "+arg2 +'\n'\
-			"@"+arg2 + '\n'\
-			'D=A' + '\n'\
-			'@'+ segment + '\n'\
-			'D=M+D' + '\n'\
-			'@addr' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M-1' + '\n'\
-			'A=M' + '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'A=M' + '\n'\
-			'M=D'
+			list = ["//pop " + arg1 + " "+arg2,
+			"@"+arg2,
+			'D=A',
+			'@'+ segment,
+			'D=M+D',
+			'@addr',
+			'M=D',
+			'@SP',
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'A=M', 
+			'M=D']
+			self.write_to_file(name, list)
 
 		elif segment == "TEMP":
 			location = int(arg2) + 5
-			print "//pop " + arg1 + " "+arg2 +'\n'\
-			'@SP' + '\n'\
-			'M=M-1'  '\n'\
-			'A=M' + '\n'\
-			'D=M' + '\n'\
-			"@"+ str(location)+ '\n'\
-			'M=D'
+			list = ["//pop " + arg1 + " "+arg2,
+			'@SP',
+			'M=M-1',
+			'A=M'
+			'D=M',
+			"@"+ str(location),
+			'M=D']
+			self.write_to_file(name, list)
 
 		elif segment == "STAT":
 			name = name.split('/')[-1]
-			print "//pop " + arg1 + " "+arg2 +'\n'\
-			'@SP' +'\n'\
-			'M=M-1' +'\n'\
-			'A=M' +'\n'\
-			'D=M' +'\n'\
-			'@'+ name +'.' + arg2 + '\n'\
-			'M=D'
+			list = ["//pop " + arg1 + " "+arg2,
+			'@SP',
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@'+ name +'.' + arg2,
+			'M=D']
+			self.write_to_file(name, list)
 
 		elif segment == "POI":
 			if arg2 == "0":
-				print "//pop " + arg1 + " "+arg2 +'\n'\
-				'@SP' + '\n'\
-				'M=M-1' + '\n'\
-				'A=M' +'\n'\
-				'D=M' + '\n'\
-				'@THIS'+ '\n'\
-				'M=D' + '\n'\
+				list = ["//pop " + arg1 + " "+arg2,
+				'@SP',
+				'M=M-1',
+				'A=M',
+				'D=M',
+				'@THIS',
+				'M=D']
+				self.write_to_file(name, list)
 				
 			elif arg2 =="1":
-				print "//pop " + arg1 + " "+arg2 +'\n'\
-				'@SP' + '\n'\
-				'M=M-1' + '\n'\
-				'A=M' +'\n'\
-				'D=M' + '\n'\
-				'@THAT'+ '\n'\
-				'M=D' + '\n'\
+				list = ["//pop " + arg1 + " "+arg2,
+				'@SP',
+				'M=M-1',
+				'A=M',
+				'D=M',
+				'@THAT',
+				'M=D']
+				self.write_to_file(name, list)
 
 	def arithmetic(self, command):
 		
 		if command == "add":
-			print "//add"+'\n'\
-			"@SP" + '\n'\
-			'M=M-1' + '\n'\
-			'A=M'+ '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M-1' + '\n'\
-			'A=M' + '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'D=M+D' + '\n'\
-			'@SP' + '\n'\
-			'A=M' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M+1'
+			list = ["//add",
+			"@SP",
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'M=D',
+			'@SP',
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'D=M+D',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1']
+			self.write_to_file(name, list)
 
 		elif command == "sub":
-			print "//sub"+'\n'\
-			"@SP" + '\n'\
-			'M=M-1' + '\n'\
-			'A=M'+ '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M-1' + '\n'\
-			'A=M' + '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'D=D-M' + '\n'\
-			'@SP' + '\n'\
-			'A=M' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M+1'
+			list = ["//sub",
+			"@SP",
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'M=D',
+			'@SP',
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'D=D-M',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1']
+			self.write_to_file(name, list)
 
 		elif command == "neg":
-			print "//neg"+'\n'\
-			"@SP" + '\n'\
-			'D=M-1' + '\n'\
-			'A=D'+ '\n'\
-			'M=-M'
+			list = ["//neg",
+			"@SP",
+			'D=M-1',
+			'A=D',
+			'M=-M']
+			self.write_to_file(name, list)
 			
 		elif command == "not":
-			print "//not"+'\n'\
-			"@SP" + '\n'\
-			'D=M-1' + '\n'\
-			'A=D'+ '\n'\
-			'M=!M' 
+			list = ["//not",
+			"@SP",
+			'D=M-1',
+			'A=D',
+			'M=!M' ]
+			self.write_to_file(name, list)
 
 		elif command == "or":
-			print "//or"+'\n'\
-			"@SP" + '\n'\
-			'M=M-1' + '\n'\
-			'A=M'+ '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M-1' + '\n'\
-			'A=M' + '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'D=D|M' + '\n'\
-			'@SP' + '\n'\
-			'A=M' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M+1'
+			list = ["//or",
+			"@SP",
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'M=D',
+			'@SP',
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'D=D|M',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1']
+			self.write_to_file(name, list)
 
 		elif command == "and":
-			print "//and"+'\n'\
-			"@SP" + '\n'\
-			'M=M-1' + '\n'\
-			'A=M'+ '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M-1' + '\n'\
-			'A=M' + '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'D=D&M' + '\n'\
-			'@SP' + '\n'\
-			'A=M' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M+1'
+			list =  ["//and",
+			"@SP",
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'M=D',
+			'@SP',
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'D=D&M',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1']
+			self.write_to_file(name, list)
 
 		elif command == "gt":
 			self.count = self.count + 1
@@ -296,6 +313,7 @@ class Code(object):
 			'M=D' + '\n'\
 			'@SP' + '\n'\
 			'M=M+1'
+			self.write_to_file(name, list)
 			
 
 		elif command == "lt":
@@ -326,6 +344,7 @@ class Code(object):
 			'M=D' + '\n'\
 			'@SP' + '\n'\
 			'M=M+1'
+			self.write_to_file(name, list)
 			
 
 		elif command == "eq":
@@ -356,6 +375,13 @@ class Code(object):
 			'M=D' + '\n'\
 			'@SP' + '\n'\
 			'M=M+1'
+			self.write_to_file(name, list)
+
+
+	def write_to_file(self, listname, list):
+				with open(listname+ '.asm', 'a') as the_file:
+					for item in list:
+						the_file.write("%s\n" % item)
 
 
 
