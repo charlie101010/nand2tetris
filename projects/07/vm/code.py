@@ -183,7 +183,7 @@ class Code(object):
 				'M=D']
 				self.write_to_file(name, list)
 
-	def arithmetic(self, command):
+	def arithmetic(self, command, name):
 		
 		if command == "add":
 			list = ["//add",
@@ -287,94 +287,94 @@ class Code(object):
 
 		elif command == "gt":
 			self.count = self.count + 1
-			print "//gt"+'\n'\
-			"@SP" + '\n'\
-			'M=M-1' + '\n'\
-			'A=M'+ '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M-1' + '\n'\
-			'A=M' + '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'D=D-M' + '\n'\
-			'@TRUE'+str(self.count) + '\n'\
-			'D;JGT' + '\n'\
-			'D=0' + '\n'\
-			'@FALSE'+str(self.count) + '\n'\
-			'0;JMP' + '\n'\
-			'(TRUE'+str(self.count)+')' + '\n'\
-			'D=-1' + '\n'\
-			'(FALSE'+str(self.count)+')' + '\n'\
-			'@SP' + '\n'\
-			'A=M' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M+1'
+			list = ["//gt",
+			"@SP",
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'M=D',
+			'@SP',
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'D=D-M',
+			'@TRUE'+str(self.count),
+			'D;JGT',
+			'D=0',
+			'@FALSE'+str(self.count),
+			'0;JMP',
+			'(TRUE'+str(self.count)+')',
+			'D=-1',
+			'(FALSE'+str(self.count)+')',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1']
 			self.write_to_file(name, list)
 			
 
 		elif command == "lt":
 			self.count = self.count+1
-			print "//lt"+'\n'\
-			"@SP" + '\n'\
-			'M=M-1' + '\n'\
-			'A=M'+ '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M-1' + '\n'\
-			'A=M' + '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'D=D-M' + '\n'\
-			'@TRUE'+str(self.count) + '\n'\
-			'D;JLT' + '\n'\
-			'D=0' + '\n'\
-			'@FALSE'+ str(self.count)+ '\n'\
-			'0;JMP' + '\n'\
-			'(TRUE' +str(self.count)+')' + '\n'\
-			'D=-1' + '\n'\
-			'(FALSE' +str(self.count)+')' + '\n'\
-			'@SP' + '\n'\
-			'A=M' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M+1'
+			list =  ["//lt",
+			"@SP",
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'M=D',
+			'@SP',
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'D=D-M',
+			'@TRUE'+str(self.count),
+			'D;JLT',
+			'D=0',
+			'@FALSE'+ str(self.count),
+			'0;JMP',
+			'(TRUE' +str(self.count)+')',
+			'D=-1',
+			'(FALSE' +str(self.count)+')',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1']
 			self.write_to_file(name, list)
 			
 
 		elif command == "eq":
 			self.count = self.count + 1
-			print "//eq"+'\n'\
-			"@SP" + '\n'\
-			'M=M-1' + '\n'\
-			'A=M'+ '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M-1' + '\n'\
-			'A=M' + '\n'\
-			'D=M' + '\n'\
-			'@addr' + '\n'\
-			'D=D-M' + '\n'\
-			'@TRUE'+str(self.count) + '\n'\
-			'D;JEQ' + '\n'\
-			'D=0' + '\n'\
-			'@FALSE' +str(self.count) + '\n'\
-			'0;JMP' + '\n'\
-			'(TRUE' +str(self.count)+')' + '\n'\
-			'D=-1' + '\n'\
-			'(FALSE' +str(self.count)+')' + '\n'\
-			'@SP' + '\n'\
-			'A=M' + '\n'\
-			'M=D' + '\n'\
-			'@SP' + '\n'\
-			'M=M+1'
+			list =  ["//eq",
+			"@SP",
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'M=D',
+			'@SP',
+			'M=M-1',
+			'A=M',
+			'D=M',
+			'@addr',
+			'D=D-M',
+			'@TRUE'+str(self.count),
+			'D;JEQ',
+			'D=0',
+			'@FALSE' +str(self.count),
+			'0;JMP',
+			'(TRUE' +str(self.count)+')',
+			'D=-1',
+			'(FALSE' +str(self.count)+')',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1']
 			self.write_to_file(name, list)
 
 

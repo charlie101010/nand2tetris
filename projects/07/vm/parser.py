@@ -59,9 +59,8 @@ class Parser(object):
 				arg2 = line.split(arg1,1)[1]
 				c.pop(arg1, arg2, self.name)
 			elif command == "C_ARITHMETIC":
-				specific = line
-				c.arithmetic(line)
-				c.pop(arg1, arg2, self.name)
+				c.arithmetic(line, self.name)
+	
 
 
 
