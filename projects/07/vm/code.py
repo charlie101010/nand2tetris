@@ -121,7 +121,7 @@ class Code(object):
 			name = name.split('/')[-1]
 			print "//pop " + arg1 + " "+arg2 +'\n'\
 			'@SP' +'\n'\
-			'M=M=1' +'\n'\
+			'M=M-1' +'\n'\
 			'A=M' +'\n'\
 			'D=M' +'\n'\
 			'@'+ name +'.' + arg2 + '\n'\
