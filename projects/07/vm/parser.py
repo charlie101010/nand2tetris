@@ -43,6 +43,16 @@ class Parser(object):
 			return "C_POP"
 		elif self.arithmetic_check(text):
 			return "C_ARITHMETIC"
+		elif "if-goto" in text:
+			return "IF"
+		elif "goto" in text:
+			return "GO"
+		elif "label" in text:
+			return "LABEL"
+		elif "call" in text:
+			return "CALL"
+		elif "function" in text:
+			return "FUNC"
 		else:
 			print "Invalid Command"
 
@@ -63,6 +73,16 @@ class Parser(object):
 				c.pop(arg1, arg2, self.name)
 			elif command == "C_ARITHMETIC":
 				c.arithmetic(line, self.name)
+			elif command == "GO":
+				arg1 = line.split("goto",1)[1]
+				c.goto(arg1, self.name)
+			elif command == "IF":
+				arg1 = line.split("if-goto",1)[1]
+				c.ifgoto(arg1, self.name)
+			elif command == "LABEL":
+				arg1 = line.split("label",1)[1]
+				c.label(arg1, self.name)
+
 	
 
 

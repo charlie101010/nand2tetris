@@ -378,6 +378,29 @@ class Code(object):
 			'M=M+1']
 			self.write_to_file(name, list)
 
+
+	def goto(self, label, name):
+		list =  ["//goto " + label,
+		"@" + label,
+		"0; JMP"]
+		self.write_to_file(name, list)
+
+	def ifgoto(self, label, name):
+		list =  ["//if-goto " + label,
+		"@SP",
+		"M=M-1",
+		"A=M",
+		"D=M",
+		"@"+label,
+		"D;JNE"]
+		self.write_to_file(name, list)
+
+	def label(self, label, name):
+		list =  ["//label " + label,
+		"(" + label +")"]
+		self.write_to_file(name, list)
+
+
 #method used to actually write to file
 	def write_to_file(self, listname, list):
 				with open(listname+ '.asm', 'a') as the_file:
