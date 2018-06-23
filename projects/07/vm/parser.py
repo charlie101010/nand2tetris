@@ -1,5 +1,6 @@
 import sys
 import code
+import re
 
 class Parser(object):
 
@@ -53,6 +54,8 @@ class Parser(object):
 			return "CALL"
 		elif "function" in text:
 			return "FUNC"
+		elif "return" in text:
+			return "RET"
 		else:
 			print "Invalid Command"
 
@@ -82,6 +85,27 @@ class Parser(object):
 			elif command == "LABEL":
 				arg1 = line.split("label",1)[1]
 				c.label(arg1, self.name)
+			elif command == "FUNC":
+				match = re.search('\d', line)
+				ind = match.start()
+				nVars = line[ind]
+				arg1 = line.split("function",1)[1]
+				className = arg1.split(".",1)[0]
+				arg2 = arg1.split(".",1)[1]
+				functionName = arg2.split(nVars, 1)[0]
+				c.func(className, functionName, nVars, self.name)
+			elif command == "CALL":
+				match = re.search('\d', line)
+				ind = match.start()
+				nArgs = line[ind]
+				arg1 = line.split("call",1)[1]
+				className = arg1.split(".",1)[0]
+				arg2 = arg1.split(".",1)[1]
+				functionName = arg2.split(nArgs, 1)[0]
+				print className, functionName
+			elif command == "RET":
+				c.ret(self.name)
+
 
 	
 

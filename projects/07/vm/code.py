@@ -6,6 +6,8 @@ class Code(object):
 	def __init__(self):
 		self.name = "code"
 		self.count = 0
+		self.retcount = 0
+		self.currentClass = ""
 
 #initiate the process of translation for a given push command type and pass the assembly abbreviation for LCL, THIS, THAT, ARG...this can definitely be more efficient
 	def push(self, arg1, arg2, name):
@@ -396,16 +398,67 @@ class Code(object):
 		self.write_to_file(name, list)
 
 	def label(self, label, name):
-		list =  ["//label " + label,
+		same = name.split('/')[-1]
+		list =  ["//label " + same + "." + self.currentClass + "$" + label,
 		"(" + label +")"]
 		self.write_to_file(name, list)
+
+	def call(self, className, functionName, nArgs, name):
+		list =  ["//call " + functionName,
+		"(" + same + "." + self.currentClass + "$" + label +")"]
+		self.write_to_file(name, list)
+
+	def func(self, className, functName, nVars, name):
+		nVars = int(nVars)
+		pushlocal = []
+		pushlocal = [(pushlocal + self.funcHelper(str(i))) for i in range(nVars)]
+		list =  ["//function " + className + "." + functName,
+		"(" + className + "." + functName +")"
+		]
+		for line in pushlocal[0]:
+			list.append(line)
+		for line in pushlocal[1]:
+			list.append(line)
+		self.currentClass = className
+		print self.currentClass
+		self.write_to_file(name, list)
+
+	def funcHelper(self, nVars):
+		list = [ "//push " + "local" + " "+ nVars,
+			"@"+ nVars,
+			'D=A',
+			'@LCL',
+			'D=M+D',
+			'A=D',
+			'D=M',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1']
+		return list
+
+	def ret(self, name):
+		list = ["//return" + self.currentClass,
+		"@" + self.currentClass + "$ret." + str(self.retcount),
+		"0; JMP"]
+		self.retcount = self.retcount + 1
+		self.write_to_file(name, list)
+
+
 
 
 #method used to actually write to file
 	def write_to_file(self, listname, list):
-				with open(listname+ '.asm', 'a') as the_file:
-					for item in list:
-						the_file.write("%s\n" % item)
+		with open(listname + '.asm', 'a') as the_file:
+			for item in list:
+				the_file.write("%s\n" % item)
+
+
+
+
+
+
 
 
 
