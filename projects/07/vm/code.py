@@ -415,10 +415,9 @@ class Code(object):
 		list =  ["//function " + className + "." + functName,
 		"(" + className + "." + functName +")"
 		]
-		for line in pushlocal[0]:
-			list.append(line)
-		for line in pushlocal[1]:
-			list.append(line)
+		for item in range(len(pushlocal)):
+			for line in pushlocal[item]:
+				list.append(line)
 		self.currentClass = className
 		print self.currentClass
 		self.write_to_file(name, list)
