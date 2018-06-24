@@ -404,16 +404,19 @@ class Code(object):
 		self.write_to_file(name, list)
 
 	def call(self, className, functionName, nArgs, name):
+		same = name.split('/')[-1]
 		list =  ["//call " + functionName,
 		"(" + same + "." + self.currentClass + "$" + label +")"]
+		self.retcount = self.retcount + 1
 		self.write_to_file(name, list)
 
 	def func(self, className, functName, nVars, name):
+		same = name.split('/')[-1]
 		nVars = int(nVars)
 		pushlocal = []
 		pushlocal = [(pushlocal + self.funcHelper(str(i))) for i in range(nVars)]
-		list =  ["//function " + className + "." + functName,
-		"(" + className + "." + functName +")"
+		list =  ["//function " + same + "." +className + "." + functName,
+		"("  + same + "." + className + "." + functName +")"
 		]
 		for item in range(len(pushlocal)):
 			for line in pushlocal[item]:
@@ -423,25 +426,69 @@ class Code(object):
 		self.write_to_file(name, list)
 
 	def funcHelper(self, nVars):
-		list = [ "//push " + "local" + " "+ nVars,
+		list = [ "//initialize " + "local" + " "+ nVars,
 			"@"+ nVars,
 			'D=A',
 			'@LCL',
-			'D=M+D',
-			'A=D',
-			'D=M',
-			'@SP',
-			'A=M',
-			'M=D',
+			'A=M+D',
+			'M=0',
 			'@SP',
 			'M=M+1']
 		return list
 
 	def ret(self, name):
 		list = ["//return" + self.currentClass,
-		"@" + self.currentClass + "$ret." + str(self.retcount),
-		"0; JMP"]
-		self.retcount = self.retcount + 1
+		"@LCL",
+		"D=M",
+		"@endFrame",
+		"M=D",
+		"@5",
+		"D=A",
+		"@endFrame",
+		"D=M-D",
+		"@retAddr",
+		"M=D",
+		"@SP",
+		"M=M-1",
+		"A=M",
+		"D=M",
+		"@ARG",
+		"A=M",
+		"M=D",
+		"@ARG",
+		"D=M",
+		"@SP",
+		"M=D+1",
+		"@endFrame",
+		"A=M-1",
+		"D=M",
+		"@THAT",
+		"M=D",
+		"@2",
+		"D=A",
+		"@endFrame",
+		"A=M-D",
+		"D=M",
+		"@THIS",
+		"M=D",
+		"@3",
+		"D=A",
+		"@endFrame",
+		"A=M-D",
+		"D=M",
+		"@ARG",
+		"M=D",
+		"@4",
+		"D=A",
+		"@endFrame",
+		"A=M-D",
+		"D=M",
+		"@LCL",
+		"M=D",
+		"@retAddr",
+		"A=M"
+		]
+		
 		self.write_to_file(name, list)
 
 
