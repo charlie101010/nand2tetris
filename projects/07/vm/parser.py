@@ -42,6 +42,10 @@ class Parser(object):
 			return "C_PUSH"
 		elif "pop" in text:
 			return "C_POP"
+		elif "call" in text:
+			return "CALL"
+		elif "function" in text:
+			return "FUNC"
 		elif self.arithmetic_check(text):
 			return "C_ARITHMETIC"
 		elif "if-goto" in text:
@@ -50,10 +54,6 @@ class Parser(object):
 			return "GO"
 		elif "label" in text:
 			return "LABEL"
-		elif "call" in text:
-			return "CALL"
-		elif "function" in text:
-			return "FUNC"
 		elif "return" in text:
 			return "RET"
 		else:
@@ -88,21 +88,23 @@ class Parser(object):
 			elif command == "FUNC":
 				match = re.search('\d', line)
 				ind = match.start()
-				nVars = line[ind]
-				arg1 = line.split("function",1)[1]
-				className = arg1.split(".",1)[0]
-				arg2 = arg1.split(".",1)[1]
-				functionName = arg2.split(nVars, 1)[0]
-				c.func(className, functionName, nVars, self.name)
+				nVars = line[-1:]
+				functionName = line.split("function",1)[1][:-1]
+				# className = arg1.split(".",1)[0]
+				# arg2 = arg1.split(".",1)[1]
+				# functionName = arg2[:-1]
+				print functionName
+				c.func(functionName, nVars, self.name)
 			elif command == "CALL":
 				match = re.search('\d', line)
 				ind = match.start()
-				nArgs = line[ind]
-				arg1 = line.split("call",1)[1]
-				className = arg1.split(".",1)[0]
-				arg2 = arg1.split(".",1)[1]
-				functionName = arg2.split(nArgs, 1)[0]
-				print className, functionName
+				nArgs = line[-1:]
+				functionName = line.split("call",1)[1][:-1]
+				# className = arg1.split(".",1)[0]
+				# arg2 = arg1.split(".",1)[1]
+				# functionName = arg2[:-1]
+				print functionName
+				c.call(functionName, nArgs, self.name)
 			elif command == "RET":
 				c.ret(self.name)
 

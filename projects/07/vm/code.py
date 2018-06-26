@@ -7,7 +7,7 @@ class Code(object):
 		self.name = "code"
 		self.count = 0
 		self.retcount = 0
-		self.currentClass = ""
+		# self.currentClass = ""
 
 #initiate the process of translation for a given push command type and pass the assembly abbreviation for LCL, THIS, THAT, ARG...this can definitely be more efficient
 	def push(self, arg1, arg2, name):
@@ -399,30 +399,23 @@ class Code(object):
 
 	def label(self, label, name):
 		same = name.split('/')[-1]
-		list =  ["//label " + same + "." + self.currentClass + "$" + label,
+		list =  ["//label " + label,
 		"(" + label +")"]
 		self.write_to_file(name, list)
 
-	def call(self, className, functionName, nArgs, name):
-		same = name.split('/')[-1]
-		list =  ["//call " + functionName,
-		"(" + same + "." + self.currentClass + "$" + label +")"]
-		self.retcount = self.retcount + 1
-		self.write_to_file(name, list)
 
-	def func(self, className, functName, nVars, name):
+	def func(self, functName, nVars, name):
 		same = name.split('/')[-1]
 		nVars = int(nVars)
 		pushlocal = []
 		pushlocal = [(pushlocal + self.funcHelper(str(i))) for i in range(nVars)]
-		list =  ["//function " + same + "." +className + "." + functName,
-		"("  + same + "." + className + "." + functName +")"
+		list =  ["//function " +  functName,
+		"("  + functName +")"
 		]
 		for item in range(len(pushlocal)):
 			for line in pushlocal[item]:
 				list.append(line)
-		self.currentClass = className
-		print self.currentClass
+		# self.currentClass = className
 		self.write_to_file(name, list)
 
 	def funcHelper(self, nVars):
@@ -436,8 +429,63 @@ class Code(object):
 			'M=M+1']
 		return list
 
+	def call(self, functName, nArgs, name):
+		same = name.split('/')[-1]
+		list = [ "//call " +  functName + nArgs,
+			"@"+ functName + "$ret" + str(self.retcount),
+			'D=A',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1',
+			'@LCL',
+			'D=M',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1',
+			'@ARG',
+			'D=M',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1',
+			'@THIS',
+			'D=M',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1',
+			'@THAT',
+			'D=M',
+			'@SP',
+			'A=M',
+			'M=D',
+			'@SP',
+			'M=M+1',
+			'@SP',
+			'D=M',
+			'@' + str(int(nArgs) +int(5)),
+			'D=D-A',
+			'@ARG',
+			'M=D',
+			'@SP',
+			'D=M',
+			'@LCL',
+			'M=D',
+			'@' + functName,
+			'0; JMP',
+			'(' +  functName + "$ret" + str(self.retcount) + ')',
+			]
+		self.write_to_file(name, list)
+		self.retcount = self.retcount + 1
+
 	def ret(self, name):
-		list = ["//return" + self.currentClass,
+		list = ["//return" + name,
 		"@LCL",
 		"D=M",
 		"@endFrame",
@@ -446,47 +494,55 @@ class Code(object):
 		"D=A",
 		"@endFrame",
 		"D=M-D",
+		"A=D",
+		"D=M",
 		"@retAddr",
 		"M=D",
-		"@SP",
-		"M=M-1",
-		"A=M",
-		"D=M",
-		"@ARG",
-		"A=M",
-		"M=D",
+		'@0',
+		'D=A',
+		'@ARG',
+		'A=M',
+		'D=D+A',
+		'@addr',
+		'M=D',
+		'@SP',
+		'M=M-1',
+		'A=M',
+		'D=M',
+		'@addr',
+		'A=M',
+		'M=D',
 		"@ARG",
 		"D=M",
 		"@SP",
 		"M=D+1",
 		"@endFrame",
-		"A=M-1",
+		"M=M-1",
+		"A=M",
 		"D=M",
 		"@THAT",
 		"M=D",
-		"@2",
-		"D=A",
 		"@endFrame",
-		"A=M-D",
+		"M=M-1",
+		"A=M",
 		"D=M",
 		"@THIS",
 		"M=D",
-		"@3",
-		"D=A",
 		"@endFrame",
-		"A=M-D",
+		"M=M-1",
+		"A=M",
 		"D=M",
 		"@ARG",
-		"M=D",
-		"@4",
-		"D=A",
+		'M=D',
 		"@endFrame",
-		"A=M-D",
+		"M=M-1",
+		"A=M",
 		"D=M",
 		"@LCL",
 		"M=D",
 		"@retAddr",
-		"A=M"
+		"A=M",
+		"0; JMP",
 		]
 		
 		self.write_to_file(name, list)
